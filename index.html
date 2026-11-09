@@ -1,62 +1,64 @@
 <!DOCTYPE html>
 <html>
-    <head><title>방문 카운터 쿠키</title></head>
+<head>
+    <meta charset="UTF-8">
+    <title>방문 카운터 쿠키</title>
     <script>
         function GetCookie(name)
         {
-            let pairs = document.cookie.split(";");
-            for(let i=0; i<pairs.length; i++)
-            {   
-                let pair = pairs[i].trim();
+            let pairs = document.cookie.split(";");         
+            for (let i = 0; i < pairs.length; i++)
+            {
+                let pair = pairs[i].trim();                   
                 let unit = pair.split("=");
                 if (unit[0] == name)
-                return unescape(unit[1]);
+                    return decodeURIComponent(unit[1]);
             }
-            return null;
-        }
-        function SetCookie(name,val,expireDate)
+            return null;                                      
+        }                                                      
+
+        function SetCookie(name, val, expireDate)
         {
             let expireStr;
-           if(expireDate == null)
-           {
-               expireDate = "":
-           }
+            if (expireDate == null)                           
+            {
+                expireStr = "";                              
+            }
             else
             {
-                expireStr = ""; expires=" + expireDate.toUTCString();
+                expireStr = "; expires=" + expireDate.toUTCString();  
             }
-                let cookieStr = name + "=" +
-                encodeURIComponent(val) + expireStr;
-                document.cookie = cookieStr;
-            }
+            let cookieStr = name + "=" + encodeURIComponent(val) + expireStr; 
+            document.cookie = cookieStr;
+        }
     </script>
-    <body>
-        <script>
-            let username = GetCookie("username");
-            let count = GetCookie("count");
-            let expire = new Date(); //현재 시각
-            expire.setTime(expire.getTime() + (365*24*3600*1000));
-            
-            if(username==null)
-            {
-                count = 0;
-                username = prompt("이름을 입력하세요");
-            
-                if(username == null)
-                {
-                alert("이름을 입력하셔야 쿠키에 저장됩니다.");
-                    username="...";
-                }
-                else
-                {
-                    SetCookie("username",username,expire);
-                }
-            }
-                count = count +1;
-                SetCookie("count", count, expire);
-                document.write("<br>어서오세요"+ username +"님");
-                document.write(count + "번째 방문을 환영합니다.");
-            </script>    
-        </body>
-</html>
+</head>
+<body>
+    <script>
+        let username = GetCookie("username");
+        let count = parseInt(GetCookie("count")) || 0;        
+        let expire = new Date();                              
+        expire.setTime(expire.getTime() + (365*24*3600*1000));
 
+        if (username == null)                                 
+        {
+            count = 0;
+            username = prompt("이름을 입력하세요");
+            if (username == null)
+            {
+                alert("이름을 입력하셔야 쿠키에 저장됩니다.");
+                username = "...";
+            }
+            else                                      
+            {
+                SetCookie("username", username, expire);
+            }
+        }                                                     
+
+        count = count + 1;
+        SetCookie("count", count, expire);
+        document.write("<br>어서오세요 " + username + "님<br>");
+        document.write(count + "번째 방문을 환영합니다.");
+    </script>
+</body>
+</html>
