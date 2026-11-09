@@ -23,7 +23,7 @@
            }
             else
             {
-                expireStr = "; expires=" + expireDate.toUTCString();
+                expireStr = ""; expires=" + expireDate.toUTCString();
             }
                 let cookieStr = name + "=" +
                 encodeURIComponent(val) + expireStr;
@@ -41,6 +41,7 @@
             {
                 count = 0;
                 username = prompt("이름을 입력하세요");
+            
                 if(username == null)
                 {
                 alert("이름을 입력하셔야 쿠키에 저장됩니다.");
@@ -50,8 +51,8 @@
                 {
                     SetCookie("username",username,expire);
                 }
+            }
                 count = count +1;
-                expire.setTime(getTime()+(365*24*3600*1000));
                 SetCookie("count", count, expire);
                 document.write("<br>어서오세요"+ username +"님");
                 document.write(count + "번째 방문을 환영합니다.");
